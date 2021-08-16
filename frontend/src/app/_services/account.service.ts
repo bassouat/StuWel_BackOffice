@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 import { environment } from '@environments/environment';
 import { User } from '@app/_models';
+import { Article } from '../_models/article';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
@@ -25,7 +25,8 @@ export class AccountService {
     login(username, password) {
         return this.http.post<User>(`${environment.apiUrl}/users/authenticate`, { username, password })
             .pipe(map(user => {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                // store user details and jwt token in local storage to keep user 
+                // logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(user));
                 this.userSubject.next(user);
                 return user;
@@ -76,5 +77,15 @@ export class AccountService {
                 }
                 return x;
             }));
+    }
+
+    // ################################### Article services ################################### //
+    createArticle(dataArticle) {
+        console.log('data received in client service ', dataArticle);
+        return this.http.post<Article>(`${environment.apiUrl}/article/create`, { dataArticle });
+    }
+
+    getAllArticle() {
+        return this.http.get<Article[]>(`${environment.apiUrl}/article`);
     }
 }
