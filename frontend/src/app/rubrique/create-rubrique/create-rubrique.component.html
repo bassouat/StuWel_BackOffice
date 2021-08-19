@@ -1,0 +1,17 @@
+<form [formGroup]="rubriqueForm" (ngSubmit)="onFormSubmit()">
+    <div>
+        <mat-form-field appearance="outline">
+            <mat-label>Rubrique</mat-label>
+            <!-- (selectionChange)="manageChips($event.value,'rub')" -->
+            <mat-select formControlName="rubrique">
+                <mat-option *ngFor="let rub of rubriqueList" [value]="rub">
+                    {{rub}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <angular-editor [placeholder]="'Veuillez saisir une rubrique '" [ngModelOptions]="{standalone: true}"
+        [(ngModel)]="htmlContent" [config]="editorConfig">
+    </angular-editor>
+    <button> Sauvegarder </button>
+</form>

@@ -2,13 +2,14 @@
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, retryWhen } from 'rxjs/operators';
 import { environment } from '@environments/environment';
 import { User } from '@app/_models';
 import { Article } from '../_models/article';
+import { Rubrique } from '../_models/rubrique';
 
 @Injectable({ providedIn: 'root' })
-export class AccountService {
+export class ClientHttpService {
     private userSubject: BehaviorSubject<User>;
     public user: Observable<User>;
 
@@ -86,6 +87,20 @@ export class AccountService {
     }
 
     getAllArticle() {
-        return this.http.get<Article[]>(`${environment.apiUrl}/article`);
+        return this.http.get<Article[]>(`${environment.apiUrl}/article`).pipe(
+            map(val => {
+              return val.map(v => v.data)
+            })
+        )
     }
+
+    // ################################### Rubriques services  ################################### //
+    createRubrique(dataRubrique) {
+        return this.http.post<Rubrique>(`${environment.apiUrl}/rubrique/create`, dataRubrique);
+    }
+
+    getAllRubrique() {
+        return this.http.get<Rubrique[]>(`${environment.apiUrl}/rubrique`);
+    }
+
 }

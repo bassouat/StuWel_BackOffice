@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Article } from '@app/_models/article';
-import { AccountService } from '@app/_services';
+import { ClientHttpService } from '@app/_services';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -13,17 +13,14 @@ export class DisplayArticleComponent implements OnInit {
   articles: any[] = [];
   articles$: Observable<Article[]>;
 
-  constructor(private articleService: AccountService) { }
+  constructor(private articleService: ClientHttpService) { }
 
   ngOnInit(): void {
-    this.articles$ = this.articleService.getAllArticle();
+    //this.articles$ = this.articleService.getAllArticle();
 
-    this.articleService.getAllArticle().subscribe((values: Article[]) => {
-      this.articles = values.map(val => {
-        return val.data;
-      });
-      console.log("this.articles ", values.map(val => val.data));
-
+    this.articleService.getAllArticle().subscribe((values) => {
+      this.articles = values;
+      console.log("this.articles ", this.articles);
     });
   }
 

@@ -5,7 +5,7 @@ import { DisplayArticleComponent } from './display-article/article.component';
 
 
 const routes: Routes = [
-  { path: 'all', component: DisplayArticleComponent },
+  { path: '', component: DisplayArticleComponent },
   { path: 'create', component: CreateArticleComponent },
   // children: [
   //   { path: 'login', component: LoginComponent },

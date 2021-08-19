@@ -1,10 +1,10 @@
-<div [innerHtml] = "articles | safeHtml">
+<div [innerHtml]="rubriques | safeHtml">
 </div>
 <br>
 <div>
     <div style="text-align: center;">
         <button [routerLink]="['create']">
-            Créer des articles
+            Créer des rubriques
         </button>
     </div>
 </div>

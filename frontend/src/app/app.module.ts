@@ -12,7 +12,7 @@ import { AppComponent } from './app.component';
 import { AlertComponent } from './_components';
 import { HomeComponent } from './home';;
 import { AngularEditorModule } from '@kolkov/angular-editor';
-import { CreateArticleComponent } from './article/create-article/create-article.component';;
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 
 @NgModule({
     imports: [
@@ -21,13 +21,13 @@ import { CreateArticleComponent } from './article/create-article/create-article.
         HttpClientModule,
         AppRoutingModule,
         AngularEditorModule,
-        FormsModule
+        FormsModule,
+        BrowserAnimationsModule
     ],
     declarations: [
         AppComponent,
         AlertComponent,
-        HomeComponent,
-        CreateArticleComponent
+        HomeComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
