@@ -12,7 +12,8 @@ import { AppComponent } from './app.component';
 import { AlertComponent } from './_components';
 import { HomeComponent } from './home';;
 import { AngularEditorModule } from '@kolkov/angular-editor';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';;
+
 
 @NgModule({
     imports: [
@@ -27,14 +28,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     declarations: [
         AppComponent,
         AlertComponent,
-        HomeComponent
-    ],
+        HomeComponent],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
         // provider used to create fake backend
-      //  fakeBackendProvider
+        //  fakeBackendProvider
     ],
     bootstrap: [AppComponent]
 })

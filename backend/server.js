@@ -17,6 +17,9 @@ app.use(jwt());
 app.use('/users', require('./users/users.controller'));
 app.use('/article', require('./article/article.controller'));
 app.use('/rubrique', require('./rubrique/rubrique.controller'));
+app.use('/sous-rubrique', require('./rubrique/sous-rubrique.controller'));
+app.use('/acteur', require('./acteur/acteur.controller'));
+app.use('/temoignage', require('./temoignage/temoignage.controller'));
 
 // global error handler
 app.use(errorHandler);

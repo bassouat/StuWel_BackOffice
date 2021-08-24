@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-    data: { type: String, required: false }
+    data: { type: String, required: false },
+    pays: { type: String, required: false }
 });
 
 // schema.set('toJSON', {
@@ -14,4 +15,4 @@ const schema = new Schema({
 //     }
 // });
 
-module.exports = mongoose.model('Article', schema);
+module.exports = mongoose.model('Acteur', schema);

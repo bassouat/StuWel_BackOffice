@@ -12,5 +12,8 @@ mongoose.Promise = global.Promise;
 module.exports = {
     User: require('../users/user.model'),
     Article: require('../article/article.model'),
-    Rubrique: require('../rubrique/rubrique.model')
+    Rubrique: require('../rubrique/rubrique.model'),
+    sRubrique: require('../rubrique/sous-rubrique.model'),
+    Acteur: require('../acteur/acteur.model'),
+    Temoignage: require('../temoignage/temoignage.model')
 };

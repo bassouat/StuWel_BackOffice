@@ -10,15 +10,16 @@ enum RubriqueEnum {
 }
 
 export class Rubrique {
-    // static readonly RubriqueEnum = RubriqueEnum;
-    // readonly Status = Rubrique.RubriqueEnum;
     id: string;
+    pays: string;
     data: any;
     name: string;
-
-constructor(rubriqueEnum: string, data: any){
-    this.data = data;
-    this.name = rubriqueEnum;
-}
+    sRubrique: string;
+    constructor(rubriqueEnum: string, data: any, sRubrique: string, pays: string) {
+        this.data = data;
+        this.name = rubriqueEnum;
+        this.sRubrique = sRubrique;
+        this.pays = pays;
+    }
 
 }

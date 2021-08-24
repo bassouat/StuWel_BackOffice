@@ -5,9 +5,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { editorConfigImport } from '@app/_helpers/editor-config.const';
 import { Rubrique } from '@app/_models/rubrique';
 import { AlertService, ClientHttpService } from '@app/_services';
+import { countries } from '@app/_helpers/countries.const';
+import { Observable } from 'rxjs';
 
 enum RubriqueEnum {
-  ALLER_FRANCE = "Je soushaite aller en France",
+  ALLER_FRANCE = "Je souhaite aller en France",
   ECOLE_FRANCE = "Les écoles en France",
   VYG = "Voyage",
   LGMT = "Logement",
@@ -25,7 +27,6 @@ enum RubriqueEnum {
 export class CreateRubriqueComponent implements OnInit {
 
   htmlContent: any = "";
-  loading: boolean = false;
   rubriqueEnum = RubriqueEnum;
   editorConfig = editorConfigImport;
 
@@ -40,6 +41,9 @@ export class CreateRubriqueComponent implements OnInit {
     RubriqueEnum.VYG
   ]
 
+  countryList = countries.map(val => { return val.name });
+  sRubrique$: Observable<any>;
+  chosenCountry: string = "";
 
   constructor(private clientHttpService: ClientHttpService,
     private alertService: AlertService,
@@ -49,10 +53,13 @@ export class CreateRubriqueComponent implements OnInit {
     private formBuilder: FormBuilder) { }
 
   rubriqueForm: FormGroup = this.formBuilder.group({
-    rubrique: ['', Validators.required]
+    rubrique: ['', Validators.required],
+    sRubrique: [''],
+    pays: ['', Validators.required]
   })
 
   ngOnInit(): void {
+    this.sRubrique$ = this.clientHttpService.getAllSousRubrique();
   }
 
   get rubrique() {
@@ -64,21 +71,21 @@ export class CreateRubriqueComponent implements OnInit {
   }
 
   onFormSubmit() {
-    this.loading = true;
     let htmlData = this.sanitizer.sanitize(SecurityContext.HTML, this.htmlContent);
     let rubriqueToSend: Rubrique;
-    rubriqueToSend = new Rubrique(this.rubriqueForm.get("rubrique").value, this.htmlContent);
-    console.log("rubrique to send ", rubriqueToSend);
-    this.clientHttpService.createRubrique(rubriqueToSend).subscribe(() => {
-      const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-      console.log("return url ", returnUrl);
-      this.router.navigateByUrl(returnUrl);
-    },
-      (error) => {
-        this.alertService.error(error);
-        this.loading = false;
-      });
-    // console.log("two way data binding ", this.htmlContent);
+    rubriqueToSend = new Rubrique(this.rubriqueForm.get("rubrique").value, this.htmlContent, 
+    this.rubriqueForm.get("sRubrique").value, this.rubriqueForm.get("pays").value);
+    console.log("rubriqueToSend ",rubriqueToSend);
+    if (this.rubriqueForm.valid) {
+      this.clientHttpService.createRubrique(rubriqueToSend).subscribe(() => {
+        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+        this.router.navigateByUrl(returnUrl);
+      },
+        (error) => {
+          this.alertService.error(error);
+        });
+      // console.log("two way data binding ", this.htmlContent);
+    }
   }
 
 }

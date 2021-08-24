@@ -9,14 +9,18 @@ const accountModule = () => import('./account/account.module').then(x => x.Accou
 const usersModule = () => import('./users/users.module').then(x => x.UsersModule);
 const articleModule = () => import('./article/article.module').then(x => x.ArticleModule);
 const rubriqueModule = () => import('./rubrique/rubrique.module').then(x => x.RubriqueModule);
+const temoignageModule = () => import('./temoignage/temoignage.module').then(x => x.TemoignageModule);
+const acteurModule = () => import('./acteur/acteur.module').then(x => x.ActeurModule);
 
 const routes: Routes = [
     { path: '', component: HomeComponent, canActivate: [AuthGuard] },
-    { path: 'acceuil', component: HomeComponent},
+    { path: 'acceuil', component: HomeComponent },
     { path: 'users', loadChildren: usersModule, canActivate: [AuthGuard] },
     { path: 'account', loadChildren: accountModule },
     { path: 'article', loadChildren: articleModule },
     { path: 'rubrique', loadChildren: rubriqueModule },
+    { path: 'temoignage', loadChildren: temoignageModule },
+    { path: 'acteur', loadChildren: acteurModule },
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

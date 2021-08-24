@@ -3,11 +3,15 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require('_helpers/db');
 const Rubrique = db.Rubrique;
+const sRubrique = db.sRubrique;
+
 
 module.exports = {
     getAll,
+    getAllSousRubrique,
     getById,
     create,
+    createSousRubrique,
     update,
     delete: _delete
 };
@@ -16,12 +20,26 @@ async function getAll() {
     return await Rubrique.find();
 }
 
+async function getAllSousRubrique() {
+    return await sRubrique.find();
+}
+
 async function getById(id) {
     return await Rubrique.findById(id);
 }
 
 async function create(rubriqueParam) {
-    let rubrique = new Rubrique({ name: rubriqueParam.name, data: rubriqueParam.data });
+    let rubrique = new Rubrique({
+        name: rubriqueParam.name, pays: rubriqueParam.pays, sRubrique: rubriqueParam.sRubrique
+        , data: rubriqueParam.data
+    });
+    // save rubrique
+    await rubrique.save();
+}
+
+async function createSousRubrique(sRubriqueParam) {
+    console.log("sRubriqueParam ", sRubriqueParam);
+    let rubrique = new sRubrique({ name: sRubriqueParam.dataSRubrique });
     // save rubrique
     await rubrique.save();
 }

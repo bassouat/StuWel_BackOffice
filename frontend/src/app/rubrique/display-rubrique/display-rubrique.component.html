@@ -1,10 +1,13 @@
 <div [innerHtml]="rubriques | safeHtml">
 </div>
 <br>
-<div>
-    <div style="text-align: center;">
-        <button [routerLink]="['create']">
+<div fxLayout="row" fxLayoutAlign="space-around">
+    <div>
+        <button mat-raised-button color="accent" [routerLink]="['create']">
             Créer des rubriques
         </button>
+    </div>
+    <div fxLayout.xs="column" fxLayout="row wrap">
+        <button mat-raised-button color="primary" [routerLink]="['create-sous-rubrique']">Créer sous rubriques </button>
     </div>
 </div>

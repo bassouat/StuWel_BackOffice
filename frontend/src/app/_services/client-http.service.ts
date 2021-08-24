@@ -89,7 +89,7 @@ export class ClientHttpService {
     getAllArticle() {
         return this.http.get<Article[]>(`${environment.apiUrl}/article`).pipe(
             map(val => {
-              return val.map(v => v.data)
+                return val.map(v => v.data)
             })
         )
     }
@@ -103,4 +103,30 @@ export class ClientHttpService {
         return this.http.get<Rubrique[]>(`${environment.apiUrl}/rubrique`);
     }
 
+    createSousRubrique(dataSRubrique) {
+        console.log("dataSRubrique ", dataSRubrique);
+        return this.http.post<any>(`${environment.apiUrl}/sous-rubrique/create`, { dataSRubrique });
+    }
+
+    getAllSousRubrique() {
+        return this.http.get<any[]>(`${environment.apiUrl}/sous-rubrique`);
+    }
+
+    // ################################### Témoignages services  ################################### //
+    createTemoignage(dataTemoignage) {
+        return this.http.post<any>(`${environment.apiUrl}/temoignage/create`, dataTemoignage);
+    }
+
+    getAllTemoignage() {
+        return this.http.get<any[]>(`${environment.apiUrl}/temoignage`);
+    }
+
+    // ################################### Acteurs services  ################################### //
+    createActeur(dataActeur) {
+        return this.http.post<any>(`${environment.apiUrl}/acteur/create`, dataActeur);
+    }
+
+    getAllActeur() {
+        return this.http.get<any[]>(`${environment.apiUrl}/acteur`);
+    }
 }
