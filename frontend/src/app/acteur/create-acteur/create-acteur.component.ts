@@ -47,7 +47,7 @@ export class CreateActeurComponent implements OnInit {
         paysActeur: this.acteurForm.get("pays").value
       }).subscribe(() => {
         const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-        this.router.navigateByUrl(returnUrl);
+        this.router.navigate(['/acteur'], { relativeTo: this.route });
       },
         (error) => {
           this.alertService.error(error);

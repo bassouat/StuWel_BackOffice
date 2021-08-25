@@ -10,10 +10,11 @@ module.exports = {
     getAll,
     getAllSousRubrique,
     getById,
-    create,
+    createRubrique,
     createSousRubrique,
-    update,
-    delete: _delete
+    updateRubrique,
+    deleteRubrique,
+    deleteSousRubrique
 };
 
 async function getAll() {
@@ -28,7 +29,7 @@ async function getById(id) {
     return await Rubrique.findById(id);
 }
 
-async function create(rubriqueParam) {
+async function createRubrique(rubriqueParam) {
     let rubrique = new Rubrique({
         name: rubriqueParam.name, pays: rubriqueParam.pays, sRubrique: rubriqueParam.sRubrique
         , data: rubriqueParam.data
@@ -44,7 +45,11 @@ async function createSousRubrique(sRubriqueParam) {
     await rubrique.save();
 }
 
-async function update(id, userParam) {
+async function deleteSousRubrique(id) {
+    await sRubrique.findByIdAndRemove(id);
+}
+
+async function updateRubrique(id, userParam) {
     const rubrique = await Rubrique.findById(id);
 
     // validate
@@ -64,6 +69,6 @@ async function update(id, userParam) {
     await rubrique.save();
 }
 
-async function _delete(id) {
+async function deleteRubrique(id) {
     await Rubrique.findByIdAndRemove(id);
 }

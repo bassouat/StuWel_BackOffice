@@ -43,7 +43,7 @@ export class CreateTemoignageComponent implements OnInit {
     if (this.htmlContent) {
       this.clientHttpService.createTemoignage({ dataTemoignage: this.htmlContent }).subscribe(() => {
         const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-        this.router.navigateByUrl(returnUrl);
+        this.router.navigate(['/temoignage'], { relativeTo: this.route });
       },
         (error) => {
           this.alertService.error(error);

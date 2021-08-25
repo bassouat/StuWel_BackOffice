@@ -18,19 +18,19 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let user of temoignages; let i = index">
+        <tr *ngFor="let temoignage of temoignages; let i = index">
             <td>{{i}}</td>
-            <td [innerHtml]="user.data | safeHtml"></td>
+            <td [innerHtml]="temoignage.data | safeHtml"></td>
             <td style="white-space: nowrap">
-                <a routerLink="edit/{{user.id}}" class="btn btn-sm btn-primary mr-1">Modifier</a>
-                <button (click)="deleteUser(user.id)" class="btn btn-sm btn-danger btn-delete-user"
-                    [disabled]="user.isDeleting">
-                    <span *ngIf="user.isDeleting" class="spinner-border spinner-border-sm"></span>
-                    <span *ngIf="!user.isDeleting">Supprimer</span>
+                <a routerLink="edit/{{temoignage.id}}" class="btn btn-sm btn-primary mr-1">Modifier</a>
+                <button (click)="deleteTemoignage(temoignage._id)" class="btn btn-sm btn-danger btn-delete-user">
+                    Supprimer
+                    <span *ngIf="!isDeleting" class="spinner-border spinner-border-sm"></span>
+                    <!-- <span *ngIf="isDeleting">Supprimer</span> -->
                 </button>
             </td>
         </tr>
-        <tr *ngIf="!users">
+        <tr *ngIf="!temoignages">
             <td colspan="4" class="text-center">
                 <span class="spinner-border spinner-border-lg align-center"></span>
             </td>

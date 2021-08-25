@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Rubrique } from '@app/_models/rubrique';
-import { ClientHttpService } from '@app/_services';
+import { AlertService, ClientHttpService } from '@app/_services';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-display-rubrique',
@@ -8,16 +9,31 @@ import { ClientHttpService } from '@app/_services';
   styleUrls: ['./display-rubrique.component.less']
 })
 export class DisplayRubriqueComponent implements OnInit {
-  rubriques: Rubrique[] = [];
+  rubriques: any[] = [];
+  rubrique = null;
+  isDeleting: boolean = true;
 
-
-  constructor(private clientHttpService: ClientHttpService) { }
+  constructor(private clientHttpService: ClientHttpService,
+    private alertService: AlertService) { }
 
   ngOnInit(): void {
-    this.clientHttpService.getAllRubrique().subscribe((values: Rubrique[]) => {
-      this.rubriques = values.map(val => val.data);
+    this.clientHttpService.getAllRubrique().subscribe((values) => {
+      this.rubriques = values;
     })
-
   }
+  deleteTemoignage(id: string) {
+    this.isDeleting = true;
+    this.clientHttpService.deleteRubrique(id)
+      .subscribe(() => {
+        window.location.reload();
+        this.rubrique = this.rubriques.filter(x => x.id !== id);
+        this.isDeleting = false;
+        this.alertService.success("Suppression réussi");
+      },
+        (error) => {
+          this.alertService.error(error);
+        });
+  }
+
 
 }

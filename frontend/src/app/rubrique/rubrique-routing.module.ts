@@ -7,7 +7,8 @@ import { SousRubriqueComponent } from './sous-rubrique/sous-rubrique.component';
 const routes: Routes = [
   { path: '', component: DisplayRubriqueComponent },
   { path: 'create', component: CreateRubriqueComponent },
-  { path: 'create-sous-rubrique', component: SousRubriqueComponent }
+  { path: 'create-sous-rubrique', component: SousRubriqueComponent },
+  { path: '**', component: DisplayRubriqueComponent },
 ];
 
 @NgModule({

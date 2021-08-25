@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { CreateActeurComponent } from './create-acteur/create-acteur.component';
+import { DisplayActeurComponent } from './display-acteur/display-acteur.component';
 
 const routes: Routes = [
-  //{ path: '', component: DisplayRubriqueComponent },
-  { path: '', component: CreateActeurComponent },
-  //{ path: 'create-sous-rubrique', component: SousRubriqueComponent }
+  { path: '', component: DisplayActeurComponent },
+  { path: 'create', component: CreateActeurComponent },
+  { path: '**', component: DisplayActeurComponent }
 ];
 
 @NgModule({

@@ -50,7 +50,7 @@ export class SousRubriqueComponent implements OnInit {
     console.log("get srubrique ", this.sousRubriqueForm.get("sRubrique").value);
     this.clientHttpService.createSousRubrique(this.sousRubriqueForm.get("sRubrique").value).subscribe(() => {
       const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-      this.router.navigateByUrl(returnUrl);
+      this.router.navigate(['/rubrique'], { relativeTo: this.route });
     },
       (error) => {
         this.alertService.error(error);

@@ -3,17 +3,23 @@ const router = express.Router();
 const rubriqueService = require('./rubrique.service');
 
 // routes
-router.post('/create', create);
 router.get('/', getAll);
+router.post('/create', create);
+router.delete('/:id', _delete);
 // router.get('/current', getCurrent);
 // router.get('/:id', getById);
 // router.put('/:id', update);
-// router.delete('/:id', _delete);
 
 module.exports = router;
 
 function create(req, res, next) {
-    rubriqueService.create(req.body)
+    rubriqueService.createRubrique(req.body)
+        .then(() => res.json({}))
+        .catch(err => next(err));
+}
+
+function _delete(req, res, next) {
+    rubriqueService.deleteRubrique(req.params.id)
         .then(() => res.json({}))
         .catch(err => next(err));
 }
@@ -37,13 +43,7 @@ function getById(req, res, next) {
 }
 
 function update(req, res, next) {
-    rubriqueService.update(req.params.id, req.body)
-        .then(() => res.json({}))
-        .catch(err => next(err));
-}
-
-function _delete(req, res, next) {
-    rubriqueService.delete(req.params.id)
+    rubriqueService.updateRubrique(req.params.id, req.body)
         .then(() => res.json({}))
         .catch(err => next(err));
 }

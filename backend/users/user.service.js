@@ -13,10 +13,11 @@ module.exports = {
     delete: _delete
 };
 
-async function authenticate({ username, password }) {
-    const user = await User.findOne({ username });
-    if (user && bcrypt.compareSync(password, user.hash)) {
-        const token = jwt.sign({ sub: user.id }, config.secret, { expiresIn: '7d' });
+async function authenticate({ user_login, user_pass }) {
+    const user = await User.findOne({ user_login });
+    console.log("in authentication ", user_pass, user.user_pass, config.secret);
+    if (user && bcrypt.compareSync(user_pass, user.user_pass)) {
+        const token = jwt.sign({ sub: user._id }, config.secret, { expiresIn: '7d' });
         return {
             ...user.toJSON(),
             token
@@ -34,15 +35,17 @@ async function getById(id) {
 
 async function create(userParam) {
     // validate
-    if (await User.findOne({ username: userParam.username })) {
-        throw `Nom d'utilisateur ` + userParam.username + ` existant`;
+    console.log("when creation a user ", userParam);
+    if (await User.findOne({ user_login: userParam.user_login })) {
+        throw `Nom d'utilisateur ` + userParam.user_login + ` existant`;
     }
 
     const user = new User(userParam);
-
-    // hash password
-    if (userParam.password) {
-        user.hash = bcrypt.hashSync(userParam.password, 10);
+    console.log("the instanciated user to save ", user);
+    // hash user_pass
+    if (userParam.user_pass) {
+        user.user_pass = bcrypt.hashSync(userParam.user_pass, 10);
+        console.log("user.hash ",user.user_pass);
     }
 
     // save user
@@ -54,13 +57,13 @@ async function update(id, userParam) {
 
     // validate
     if (!user) throw 'Utilisateur non trouvé';
-    if (user.username !== userParam.username && await User.findOne({ username: userParam.username })) {
-        throw `Nom d'utilisateur ` + userParam.username + ` existant`;
+    if (user.user_login !== userParam.user_login && await User.findOne({ user_login: userParam.user_login })) {
+        throw `Nom d'utilisateur ` + userParam.user_login + ` existant`;
     }
 
-    // hash password if it was entered
-    if (userParam.password) {
-        userParam.hash = bcrypt.hashSync(userParam.password, 10);
+    // hash user_pass if it was entered
+    if (userParam.user_pass) {
+        userParam.user_pass = bcrypt.hashSync(userParam.user_pass, 10);
     }
 
     // copy userParam properties to user

@@ -1,8 +1,7 @@
-import { Component, OnInit, SecurityContext } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { ClientHttpService } from '@app/_services';
+import { Component, OnInit } from '@angular/core';
+import { AlertService, ClientHttpService } from '@app/_services';
 import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-display-temoignage',
@@ -13,26 +12,32 @@ export class DisplayTemoignageComponent implements OnInit {
 
   temoignage$: Observable<any>;
   temoignages: any[] = [];
-  users = null;
+  temoignage = null;
+  isDeleting: boolean = true;
 
-  constructor(private clientHttpService: ClientHttpService) { }
+  constructor(private clientHttpService: ClientHttpService,
+    private alertService: AlertService) { }
 
   ngOnInit(): void {
     this.temoignage$ = this.clientHttpService.getAllTemoignage();
     this.clientHttpService.getAllTemoignage().subscribe((values) => {
       this.temoignages = values;
     })
-    this.clientHttpService.getAll()
-      .pipe(first())
-      .subscribe(users => this.users = users);
   }
 
-  deleteUser(id: string) {
-    const user = this.users.find(x => x.id === id);
-    user.isDeleting = true;
-    this.clientHttpService.delete(id)
+  deleteTemoignage(id: string) {
+    this.isDeleting = true;
+    this.clientHttpService.deleteTemoignage(id)
       .pipe(first())
-      .subscribe(() => this.users = this.users.filter(x => x.id !== id));
+      .subscribe(() => {
+        window.location.reload();
+        this.temoignage = this.temoignages.filter(x => x.id !== id);
+        this.isDeleting = false;
+        this.alertService.success("Suppression réussi");
+      },
+        (error) => {
+          this.alertService.error(error);
+        });
   }
 
 }

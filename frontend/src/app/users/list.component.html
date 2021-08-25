@@ -3,19 +3,19 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th style="width: 30%">Prénom</th>
-            <th style="width: 30%">Nom</th>
+            <th style="width: 30%">Prénom ou Login</th>
+            <th style="width: 30%">Nom ou Email</th>
             <th style="width: 30%">Nom d'utilisateur</th>
             <th style="width: 10%"></th>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let user of users">
-            <td>{{user.firstName}}</td>
-            <td>{{user.lastName}}</td>
-            <td>{{user.username}}</td>
+            <td>{{user.user_firstname ? user.user_firstname : user.user_login}}</td>
+            <td>{{user.user_lastname ? user.user_lastname : user.user_email}}</td>
+            <td>{{user.user_nikname}}</td>
             <td style="white-space: nowrap">
-                <a routerLink="edit/{{user.id}}" class="btn btn-sm btn-primary mr-1">Modifier</a>
+                <a routerLink="edit/{{user._id}}" class="btn btn-sm btn-primary mr-1">Modifier</a>
                 <button (click)="deleteUser(user.id)" class="btn btn-sm btn-danger btn-delete-user" [disabled]="user.isDeleting">
                     <span *ngIf="user.isDeleting" class="spinner-border spinner-border-sm"></span>
                     <span *ngIf="!user.isDeleting">Supprimer</span>

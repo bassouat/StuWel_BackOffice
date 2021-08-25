@@ -1,10 +1,10 @@
-﻿import { Injectable } from '@angular/core';
+﻿import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map, retryWhen } from 'rxjs/operators';
-import { environment } from '@environments/environment';
 import { User } from '@app/_models';
+import { environment } from '@environments/environment';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Article } from '../_models/article';
 import { Rubrique } from '../_models/rubrique';
 
@@ -23,8 +23,8 @@ export class ClientHttpService {
         return this.userSubject.value;
     }
 
-    login(username, password) {
-        return this.http.post<User>(`${environment.apiUrl}/users/authenticate`, { username, password })
+    login(user_login, user_pass) {
+        return this.http.post<User>(`${environment.apiUrl}/users/authenticate`, { user_login, user_pass })
             .pipe(map(user => {
                 // store user details and jwt token in local storage to keep user 
                 // logged in between page refreshes
@@ -57,7 +57,7 @@ export class ClientHttpService {
         return this.http.put(`${environment.apiUrl}/users/${id}`, params)
             .pipe(map(x => {
                 // update stored user if the logged in user updated their own record
-                if (id == this.userValue.id) {
+                if (id == this.userValue._id) {
                     // update local storage
                     const user = { ...this.userValue, ...params };
                     localStorage.setItem('user', JSON.stringify(user));
@@ -73,7 +73,7 @@ export class ClientHttpService {
         return this.http.delete(`${environment.apiUrl}/users/${id}`)
             .pipe(map(x => {
                 // auto logout if the logged in user deleted their own record
-                if (id == this.userValue.id) {
+                if (id == this.userValue._id) {
                     this.logout();
                 }
                 return x;
@@ -82,7 +82,6 @@ export class ClientHttpService {
 
     // ################################### Article services ################################### //
     createArticle(dataArticle) {
-        console.log('data received in client service ', dataArticle);
         return this.http.post<Article>(`${environment.apiUrl}/article/create`, { dataArticle });
     }
 
@@ -103,13 +102,20 @@ export class ClientHttpService {
         return this.http.get<Rubrique[]>(`${environment.apiUrl}/rubrique`);
     }
 
+    deleteRubrique(id: string) {
+        return this.http.delete(`${environment.apiUrl}/rubrique/${id}`);
+    }
+
     createSousRubrique(dataSRubrique) {
-        console.log("dataSRubrique ", dataSRubrique);
         return this.http.post<any>(`${environment.apiUrl}/sous-rubrique/create`, { dataSRubrique });
     }
 
     getAllSousRubrique() {
         return this.http.get<any[]>(`${environment.apiUrl}/sous-rubrique`);
+    }
+
+    deleteSRubrique(id: string) {
+        return this.http.delete(`${environment.apiUrl}/sous-rubrique/${id}`);
     }
 
     // ################################### Témoignages services  ################################### //
@@ -121,6 +127,10 @@ export class ClientHttpService {
         return this.http.get<any[]>(`${environment.apiUrl}/temoignage`);
     }
 
+    deleteTemoignage(id: string) {
+        return this.http.delete(`${environment.apiUrl}/temoignage/${id}`);
+    }
+
     // ################################### Acteurs services  ################################### //
     createActeur(dataActeur) {
         return this.http.post<any>(`${environment.apiUrl}/acteur/create`, dataActeur);
@@ -128,5 +138,9 @@ export class ClientHttpService {
 
     getAllActeur() {
         return this.http.get<any[]>(`${environment.apiUrl}/acteur`);
+    }
+
+    deleteActeur(id: string) {
+        return this.http.delete(`${environment.apiUrl}/acteur/${id}`);
     }
 }

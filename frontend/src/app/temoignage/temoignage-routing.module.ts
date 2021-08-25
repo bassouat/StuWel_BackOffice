@@ -6,6 +6,7 @@ import { DisplayTemoignageComponent } from './display-temoignage/display-temoign
 const routes: Routes = [
   { path: '', component: DisplayTemoignageComponent },
   { path: 'create', component: CreateTemoignageComponent },
+  { path: '**', component: DisplayTemoignageComponent }
   //{ path: 'create-sous-rubrique', component: SousRubriqueComponent }
 ];
 

@@ -75,11 +75,9 @@ export class CreateRubriqueComponent implements OnInit {
     let rubriqueToSend: Rubrique;
     rubriqueToSend = new Rubrique(this.rubriqueForm.get("rubrique").value, this.htmlContent, 
     this.rubriqueForm.get("sRubrique").value, this.rubriqueForm.get("pays").value);
-    console.log("rubriqueToSend ",rubriqueToSend);
     if (this.rubriqueForm.valid) {
       this.clientHttpService.createRubrique(rubriqueToSend).subscribe(() => {
-        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-        this.router.navigateByUrl(returnUrl);
+        this.router.navigate(['/rubrique'], { relativeTo: this.route });
       },
         (error) => {
           this.alertService.error(error);

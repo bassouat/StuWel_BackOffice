@@ -21,10 +21,13 @@ async function getById(id) {
 }
 
 async function create(temoignageParam) {
-    console.log('temoignageParam ', temoignageParam);
     const temoignage = new Temoignage({ data: temoignageParam.dataTemoignage });
     // save temoignage
     await temoignage.save();
+}
+
+async function _delete(id) {
+    await Temoignage.findByIdAndRemove(id);
 }
 
 async function update(id, userParam) {
@@ -47,6 +50,3 @@ async function update(id, userParam) {
     await temoignage.save();
 }
 
-async function _delete(id) {
-    await Temoignage.findByIdAndRemove(id);
-}

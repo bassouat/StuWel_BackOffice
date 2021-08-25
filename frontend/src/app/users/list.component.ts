@@ -2,12 +2,13 @@
 import { first } from 'rxjs/operators';
 
 import { ClientHttpService } from '@app/_services';
+import { of, Subject } from 'rxjs';
 
 @Component({ templateUrl: 'list.component.html' })
 export class ListComponent implements OnInit {
     users = null;
-
-    constructor(private accountService: ClientHttpService) {}
+    mySubject: Subject<any> = new Subject();
+    constructor(private accountService: ClientHttpService) { }
 
     ngOnInit() {
         this.accountService.getAll()
